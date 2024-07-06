@@ -22,13 +22,13 @@ namespace ApiTick.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
         {
-            return await _context.Ticket.ToListAsync();
+            return await _context.Tickets.ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Ticket>> GetTicket(int id)
         {
-            var ticket = await _context.Ticket.FindAsync(id);
+            var ticket = await _context.Tickets.FindAsync(id);
 
             if (ticket == null)
             {
@@ -41,7 +41,7 @@ namespace ApiTick.Controllers
         [HttpPost]
         public async Task<ActionResult<Ticket>> PostTicket(Ticket ticket)
         {
-            _context.Ticket.Add(ticket);
+            _context.Tickets.Add(ticket);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTicket", new { id = ticket.Id }, ticket);
@@ -79,13 +79,13 @@ namespace ApiTick.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTicket(int id)
         {
-            var ticket = await _context.Ticket.FindAsync(id);
+            var ticket = await _context.Tickets.FindAsync(id);
             if (ticket == null)
             {
                 return NotFound();
             }
 
-            _context.Ticket.Remove(ticket);
+            _context.Tickets.Remove(ticket);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -93,7 +93,7 @@ namespace ApiTick.Controllers
 
         private bool TicketExists(int id)
         {
-            return _context.Ticket.Any(e => e.Id == id);
+            return _context.Tickets.Any(e => e.Id == id);
         }
     }
 }

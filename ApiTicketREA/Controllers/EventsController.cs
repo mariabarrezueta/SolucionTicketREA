@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ApiTicketREA.Data;
 using ApiTicketREA.Data.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiTick.Controllers
@@ -41,6 +40,8 @@ namespace ApiTick.Controllers
         [HttpPost]
         public async Task<ActionResult<Event>> PostEvent(Event eventItem)
         {
+            // No especificar el Id, la base de datos lo asignará automáticamente
+            eventItem.Id = 0;
             _context.Events.Add(eventItem);
             await _context.SaveChangesAsync();
 
@@ -97,4 +98,5 @@ namespace ApiTick.Controllers
         }
     }
 }
+
 

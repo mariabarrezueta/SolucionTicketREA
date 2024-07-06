@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using ApiTicketREA.Data.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ApiTicketREA.Data
 {
@@ -15,7 +14,14 @@ namespace ApiTicketREA.Data
         public DbSet<DetailEvent> DetailEvents { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Ticket> Ticket { get; set; } = default!;
+        public DbSet<Ticket> Tickets { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Ticket>()
+                .Property(t => t.TotalAmountPaid)
+                .HasColumnType("decimal(18,2)");
+        }
     }
 }
+
