@@ -1,4 +1,6 @@
-﻿namespace MauiTicketREA
+﻿using Microsoft.Maui.Controls;
+
+namespace MauiTicketREA
 {
     public partial class AppShell : Shell
     {
@@ -8,3 +10,4 @@
         }
     }
 }
+
