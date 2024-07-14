@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using WebTicketREA.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebTicketREA.Data
 {
@@ -11,11 +10,27 @@ namespace WebTicketREA.Data
         {
         }
 
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<DetailEvent> DetailEvents { get; set; }
-        public DbSet<Event> Events { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<WebTicketREA.Models.Ticket> Ticket { get; set; } = default!;
+        public DbSet<EventoDetalle> DetailEvents { get; set; }
+        public DbSet<Compra> Events { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<EventoDetalle>().ToTable("DetailEvents");
+            modelBuilder.Entity<Compra>().ToTable("Events");
+            modelBuilder.Entity<Ticket>().ToTable("Tickets");
+
+            modelBuilder.Entity<Compra>()
+                .Property(c => c.TotalAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<EventoDetalle>()
+                .Property(e => e.TicketPrice)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Ticket>()
+                .Property(t => t.Price)
+                .HasColumnType("decimal(18,2)");
+        }
     }
 }

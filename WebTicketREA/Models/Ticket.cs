@@ -1,12 +1,14 @@
-﻿namespace WebTicketREA.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebTicketREA.Models
 {
     public class Ticket
     {
+        [Key]
         public int Id { get; set; }
-        public string HolderName { get; set; }
-        public string IdentityNumber { get; set; }
-        public int TicketQuantity { get; set; }
-        public string TicketCategory { get; set; }
-        public decimal TotalAmountPaid { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public int EventoDetalleId { get; set; }
+        public EventoDetalle EventoDetalle { get; set; }
     }
 }

@@ -1,53 +1,44 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using ApiTicketREA.Data;
-using ApiTicketREA.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración del contexto de la base de datos
-builder.Services.AddDbContext<ApiTicketREAContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ApiTicketREAContext") ?? throw new InvalidOperationException("Connection string 'ApiTicketREAContext' not found.")));
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddDbContext<REAbaseContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("REAbaseContext")));
 
-// Configuración de CORS
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Agregar servicio CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
-});
-
-// Agregar servicios al contenedor.
-builder.Services.AddControllers();
-
-// Configuración de Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiTick", Version = "v1" });
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
 });
 
 var app = builder.Build();
 
-// Configuración del pipeline de solicitudes HTTP
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiTick v1"));
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
 
-// Aplicar CORS
-app.UseCors("AllowAllOrigins");
+// Configurar CORS en el middleware
+app.UseCors("AllowAll");
+
+app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-
-

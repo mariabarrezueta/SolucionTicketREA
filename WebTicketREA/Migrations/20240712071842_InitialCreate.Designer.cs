@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebTicketREA.Data;
 
@@ -11,9 +12,11 @@ using WebTicketREA.Data;
 namespace WebTicketREA.Migrations
 {
     [DbContext(typeof(WebTicketREAContext))]
-    partial class WebTicketREAContextModelSnapshot : ModelSnapshot
+    [Migration("20240712071842_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

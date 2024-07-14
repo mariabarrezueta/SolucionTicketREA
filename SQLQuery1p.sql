@@ -1,0 +1,7 @@
+﻿USE REAbase 
+GO 
+
+DROP TABLE DetailEvents;
+DROP DATABASE REAbase;
+
+CREATE DATABASE REAbase;
